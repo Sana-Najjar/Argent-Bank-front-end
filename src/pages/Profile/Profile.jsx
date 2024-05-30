@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { userProfile } from '../../redux/actions/user.actions.jsx';
 import User from '../../components/User/User.jsx';
-import Account from '../../components/Account/Account.jsx'
+import Account from '../../components/Account/Account.jsx';
 import AccountCardData from '../../data/AccountCardData.json';
-
+import './Profile.scss';
 /* User profile page */
 export function Profile () {
     const token = useSelector((state) => state.auth.token);
     const dispatch = useDispatch();
-
+    const [isEditing, setIsEditing] = useState(false);
     /* Asynchronous function that retrieves user data and updates it with useEffect */
     useEffect(() => {
         if (token) {
@@ -47,23 +47,21 @@ export function Profile () {
     }, [dispatch, token]);
 
     return (
-        <div className='profile-page'>
+        <div className={`profile-page ${isEditing ? 'editing' : ''}`}>
             <main className='bg-dark'>
-                {/* Return user componant */}
-                < User />
-                {/* Return items from json file with map */}
+                <User isEditing={isEditing} setIsEditing={setIsEditing} />
                 {AccountCardData.map((data) => (
-                    /* Return account component */
-                    <Account 
+                    <Account
                         key={data.id}
                         title={data.title}
                         amount={data.amount}
                         description={data.description}
+                        isEditing={isEditing}
                     />
                 ))}
             </main>
         </div>
-    )
+    );
 }
 
-export default Profile
+export default Profile;

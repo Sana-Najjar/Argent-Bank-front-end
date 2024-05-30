@@ -4,7 +4,7 @@ import { updateUsername } from "../../redux/actions/user.actions.jsx";
 import { isValidName } from "../../utils/regex.jsx";
 import '../User/User.scss';
 
-function User () {
+function User ({ isEditing, setIsEditing } ) {
     /* Updates user data on profile page from state redux */
     const token = useSelector((state) => state.auth.token);
     const userData = useSelector((state) => state.user.userData);
@@ -14,9 +14,8 @@ function User () {
     const [userName, setUserName] = useState('');
     /* Handle error message */
     const [errorMessage, setErrorMessage] = useState('');
-
     const dispatch = useDispatch();
-
+    
     /* Asynchronous username update function */
     const handleSubmitUsername = async (event) => {
         event.preventDefault();
@@ -40,6 +39,7 @@ function User () {
                 const username = data.body.userName;
                 dispatch(updateUsername(username));
                 setDisplay(!display);
+                setIsEditing(false);
             } else {
                 console.log("Invalid Fields")
             }
@@ -48,20 +48,20 @@ function User () {
             console.error(error);
         }
     }
-    
+
     return (
         <div className="header">
-            { display ? 
+            { !isEditing ? 
                 <div>
-                    <h2>Welcome back 
+                    <h2 className="welcome-back">Welcome back 
                         <br />
                         {userData.firstname} {userData.lastname} !
                     </h2>
-                    <button className="edit-button" onClick={() => setDisplay(!display)}>Edit Name</button>
+                    <button className="edit-button" onClick={() => setIsEditing(true)}>Edit Name</button>
                 </div>
                 :
                 <div>
-                    <h2>Edit user info</h2>
+                    <h2 className="edit-user-info">Edit user info</h2>
                     <form>
                         <div className="edit-input">
                             <label htmlFor="username">User name:</label>
@@ -101,5 +101,4 @@ function User () {
         </div>
     )
 }
-
-export default User
+export default User;

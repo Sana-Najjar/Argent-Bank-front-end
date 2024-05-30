@@ -5,7 +5,7 @@ import FeaturesItemData from '../../data/FeaturesItemData.json'
 import iconChat from '../../assets/img/icon-chat.webp';
 import iconMoney from '../../assets/img/icon-money.webp';
 import iconSecurity from '../../assets/img/icon-security.webp';
-import '../Home/Home.scss';
+import '../../pages/Home/Home.scss';
 
 /* Home page */
 export function Home () {
