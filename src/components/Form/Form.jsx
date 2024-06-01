@@ -46,8 +46,15 @@ function Form () {
                 }
                 navigate('/profile');
             } else {
-                const error = "Incorrect email/password"
-                dispatch(loginFailed(error));
+                const errorData = await response.json();
+                if (errorData.message === "User not found") {
+                    setErrorMessage("User not found. Please check your email and password.");
+                } else if (errorData.message === "Incorrect email/password") {
+                    setErrorMessage("Incorrect email or password.");
+                } else {
+                    setErrorMessage("An error occurred. Please try again.");
+                }
+                dispatch(loginFailed(errorData.message));
             }
         } catch (error) {
             console.error(error);
