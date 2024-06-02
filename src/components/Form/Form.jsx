@@ -47,12 +47,8 @@ function Form () {
                 navigate('/profile');
             } else {
                 const errorData = await response.json();
-                if (errorData.message === "User not found") {
+                if (errorData) {
                     setErrorMessage("User not found. Please check your email and password.");
-                } else if (errorData.message === "Incorrect email/password") {
-                    setErrorMessage("Incorrect email or password.");
-                } else {
-                    setErrorMessage("An error occurred. Please try again.");
                 }
                 dispatch(loginFailed(errorData.message));
             }
